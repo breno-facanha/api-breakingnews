@@ -1,7 +1,10 @@
 const express = require ("express")
-const userRoute = require("./routes/user.route")
 const app = express();
 
-app.use("/soma", userRoute)
+const userRoute = require("./routes/user.route")
 
-app.listen(3100)
+const port = 3100
+
+app.use("/user", userRoute)
+
+app.listen(port, () => console.log(`Servidor rodando na porta ${port}`))
