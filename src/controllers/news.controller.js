@@ -2,6 +2,7 @@ import { createService, findAllService } from "../services/news.service.js";
 
 const create = async (req, res) => {
   try {
+
     const { title, text, banner } = req.body;
 
     if (!title || !text || !banner) {
@@ -12,7 +13,7 @@ const create = async (req, res) => {
       title,
       text,
       banner,
-      user: "67d1e10e1c34310220ffc197",
+      user: req.userId,
     });
 
     res.send(201);
