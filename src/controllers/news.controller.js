@@ -2,6 +2,7 @@ import {
   createService,
   findAllService,
   countNews,
+  topNewsService,
 } from "../services/news.service.js";
 
 const create = async (req, res) => {
@@ -74,8 +75,8 @@ const findAll = async (req, res) => {
         likes: newsItem.likes,
         comments: newsItem.comments,
         name: newsItem.user.name,
-        userName: newsItem.username,
-        userAvatar: newsItem.user.userAvatar,
+        userName: newsItem.user.username,
+        userAvatar: newsItem.user.avatar,
       })),
     });
   } catch (error) {
@@ -83,4 +84,30 @@ const findAll = async (req, res) => {
   }
 };
 
-export { create, findAll };
+const topNews = async (req, res) => {
+  try {
+    const news = await topNewsService();
+
+    if (!news) {
+      return res.status(400).send({ message: "Post não registrado" });
+    }
+
+    res.send({
+      news: {
+        id: news._id,
+        title: news.title,
+        text: news.text,
+        banner: news.banner,
+        likes: news.likes,
+        comments: news.comments,
+        name: news.user.name,
+        userName: news.user.username,
+        userAvatar: news.user.avatar,
+      },
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export { create, findAll, topNews };
