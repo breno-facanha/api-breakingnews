@@ -11,6 +11,7 @@ import {
   likeNewsService,
   deleteLikedNewsService,
   addCommentService,
+  deleteCommentService
 } from "../services/news.service.js";
 
 const create = async (req, res) => {
@@ -259,7 +260,7 @@ const addComment = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.userId;
-    const comment = req.body;
+    const { comment } = req.body;
 
     if (!comment) {
       return res.status(400).send({ message: "Escreva um comentario" });
@@ -274,6 +275,31 @@ const addComment = async (req, res) => {
   }
 };
 
+const deleteComment = async (req, res) => {
+  try {
+    const { idNews, idComment } = req.params;
+    const userId = req.userId;
+
+    const commentDelete = await deleteCommentService(idNews, idComment);
+
+    const commentFinder = commentDelete.comments.find( (comments) => comment.idComment === idComment)
+    
+    if(!commentFinder){
+      return res.status(400).send({ message: "Comentário não existe"})
+    }
+
+    if(commentFinder.userId !== userId){
+      return res.status(400).send({ message: "Você não pode apagar este comentário"})
+    }
+
+    res.send({
+      message: "Comentario removido com sucesso",
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+}
+
 export {
   create,
   findAll,
@@ -285,4 +311,5 @@ export {
   erase,
   likeNews,
   addComment,
+  deleteComment
 };
