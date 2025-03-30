@@ -32,16 +32,22 @@ const eraseService = (id) => News.findOneAndDelete({ _id: id });
 
 const likeNewsService = (idNews, userId) =>
   News.findOneAndUpdate(
-    { _id: idNews, "likes.userId": {$nin: [userId]} },
+    { _id: idNews, "likes.userId": { $nin: [userId] } },
     { $push: { likes: { userId, created: new Date() } } }
   );
 
-  const deleteLikedNewsService = (idNews, userId) =>
-  News.findOneAndUpdate(
-    { _id: idNews },
-    { $pull: { likes: { userId } } }
-  );
+const deleteLikedNewsService = (idNews, userId) =>
+  News.findOneAndUpdate({ _id: idNews }, { $pull: { likes: { userId } } });
 
+const addCommentService = (idNews, comment, userId) => {
+  let idComment = Math.floor(Date.now() * Math.random()).toString(36);
+  return News.findOneAndUpdate(
+    { _id: idNews },
+    {
+      $push: { comments: { idComment, userId, comment, createAt: new Date() } },
+    }
+  );
+};
 export {
   createService,
   findAllService,
@@ -53,5 +59,6 @@ export {
   updateService,
   eraseService,
   likeNewsService,
-  deleteLikedNewsService
+  deleteLikedNewsService,
+  addCommentService
 };
