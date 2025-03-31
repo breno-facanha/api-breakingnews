@@ -1,0 +1,280 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentação API Breaking News",
+        "description": "Documentação da aplicação Breaking News",
+        "contact": {
+            "email": "brenofacanha.ti@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3100",
+            "description": "Local Server"
+        }
+    ],
+    "paths": {
+        "/user/create": {
+      "post": {
+        "summary": "Criar novo usuário",
+        "description": "Rota responsável para criar um novo usuário",
+        "tags": ["Users"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "Users": {
+                  "value": {
+                    "name": "Breno Façanha",
+                    "username": "Breno25",
+                    "email": "breno25@gmail.com",
+                    "password": "12345",
+                    "avatar": "https://i.imgur.com/Ry1cb5M.png",
+                    "background": "https://unblast.com/wp-content/uploads/2021/01/Space-Background-Images-1024x682.jpg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Not Found"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schemma": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+        "get": {
+          "summary": "Buscar usuários",
+          "description": "Rota responsável para buscar todos os usuários",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "responses": {
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Not Found"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+    "/user/{id}": {
+        "get": {
+          "summary": "Buscar usuário por id",
+          "description": "Rota responsável para buscar usuário por id",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+                "in": "path",
+                "name": "id",
+                "type": "string",
+                "description": "User ID",
+                "required": true
+            }
+          ],
+          "responses": {
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Not Found"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+    "/user/update/{id}": {
+        "patch": {
+          "summary": "Atualizar usuário por id",
+          "description": "Rota responsável para editar usuário por id",
+          "tags": ["Users"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "type": "string",
+              "description": "User ID",
+              "required": true
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "Users": {
+                    "value": {
+                      "name": "Breno Façanha"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "401": {
+              "description": "Unauthorized"
+            },
+            "400": {
+              "description": "Not Found"
+            },
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+    "/auth/login": {
+        "post": {
+          "summary": "Login Breaking News",
+          "description": "Rota responsável por fazer login de registro do usuário",
+          "tags": ["Auth"],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "User": {
+                    "value": {
+                      "email": "breno25@gmail.com",
+                      "password": "12345"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "400": {
+              "description": "Not Found"
+            },
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      }
+       
+    },
+    "components": {
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        },
+        "schemas": {
+          "User": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              },
+              "avatar": {
+                "type": "string"
+              }
+            }
+          },
+          "Post": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "string"
+              },
+              "banner": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "likes": {
+                "type": "number"
+              },
+              "comments": {
+                "type": "array"
+              },
+              "createdAt": {
+                "type": "date"
+              }
+            }
+          },
+          "Comment": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+}
