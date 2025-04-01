@@ -10,12 +10,16 @@
     },
     "servers": [
         {
+            "url": "https://api-breakingnews-cb62.onrender.com/",
+            "description": "Render Server"
+        },
+        {
             "url": "http://localhost:3100",
             "description": "Local Server"
         }
     ],
     "paths": {
-        "/user/create": {
+    "/user/create": {
       "post": {
         "summary": "Criar novo usuário",
         "description": "Rota responsável para criar um novo usuário",
