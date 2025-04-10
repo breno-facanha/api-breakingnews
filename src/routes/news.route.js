@@ -4,7 +4,7 @@ import { create, findAll, topNews, findById, searchByTitle, byUser, update, eras
 import { authMiddleware } from "../middlewares/auth.middlewares.js"
 
 router.post("/", authMiddleware, create)
-router.get("/",authMiddleware, findAll)
+router.get("/", findAll)
 router.get("/top", topNews)
 router.get("/search", searchByTitle)
 router.get("/byUser", authMiddleware, byUser )
